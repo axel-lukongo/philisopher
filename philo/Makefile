@@ -1,0 +1,34 @@
+CC = cc 
+
+RM = rm -rf
+
+NAME = philo
+
+MANDATORY = main.c\
+
+MANDATORY_SRCS	=	${MANDATORY}
+
+BONUS_SRCS	=	${BONUS}
+
+MANDATORY_OBJS	= ${MANDATORY_SRCS:.c=.o}
+
+CFLAGS	= -g 
+
+.c.o:
+		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+
+all: ${NAME}
+
+${NAME}: ${MANDATORY_OBJS}
+		${CC} ${CFLAGS}   -o ${NAME} ${MANDATORY_OBJS} -lpthread
+
+
+clean:
+	${RM} ${MANDATORY_OBJS}
+
+fclean: clean
+	${RM} ${NAME}
+
+re: fclean all
+
+.PHONY: all clean fclean re
