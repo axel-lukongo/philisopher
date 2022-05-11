@@ -5,6 +5,8 @@ RM = rm -rf
 NAME = philo
 
 MANDATORY = main.c\
+			parsing.c\
+			utils.c\
 
 MANDATORY_SRCS	=	${MANDATORY}
 
