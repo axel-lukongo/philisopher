@@ -6,58 +6,61 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/11 14:45:22 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/12 20:26:42 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void *func1(void * arg)
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void	*func1(void * arg)
 {
-	while (1)
+	pthread_mutex_lock(&mutex);
+	(void) arg;
+	int i = 0;
+	while (i < 10)
 	{
-		sleep(1);
-		printf("1\n");
+		usleep(100000);
+		printf("i = %d\n", i++);
 	}
+	printf("next thread\n");
+	pthread_mutex_unlock(&mutex);
 	return (NULL);
-	//pthread_exit(NULL);
 }
 
-void *func2(void * arg)
+/*
+void joint_thread(t_philosopher philo[])
 {
-	while (1)
-	{
-		sleep(1);
-		printf("2\n");
-	}
-	return (NULL);
-	//pthread_exit(NULL);
-}
+	
+}*/
 
-
-void *func4(void * arg)
+void	set_philo(int nb_philo, int ac, char **av)
 {
-	while (1)
+	t_philosopher philo[nb_philo];
+	t_data data;
+	int i;
+
+	init_data(&data, av, ac);
+	i = 0;
+	while (i < nb_philo)
 	{
-		sleep(1);
-		printf("4\n");
+		pthread_create(&philo[i].philo, NULL, func1, NULL);
+		i++;
 	}
-	return (NULL);
-	//pthread_exit(NULL);
+	i = 0;
+	while (i < nb_philo)
+	{
+		pthread_join(philo[i].philo, NULL);
+		i++;
+	}
 }
 
 int main(int ac, char **av)
 {
-	pthread_t t1;
-	pthread_t t2;
-
-	if ((parsing(ac, av) == ERROR) || (ac < 4 || ac > 5))
+	if ((parsing(ac, av) == ERROR) || (ac < 5 || ac > 6))
 		return(ERROR);
-	pthread_create(&t1, NULL, func2, NULL);
-	pthread_create(&t2, NULL, func2, NULL);
-	func1(NULL);
-//	pthread_join(t1, NULL);
-	//pthread_join(t2, NULL);
-	//for(int i = 0; i < 100000; i++)
+	else
+		set_philo(ft_atoi(av[1]), ac, av);
 	return(0);
 }
