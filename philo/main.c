@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/16 13:53:17 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/16 18:43:04 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 void	*func1(void * arg)
 {
 	static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-	//t_data data;
 	(void) arg;
 	int i = 0;
-	//pthread_mutex_init(&data.write, NULL);
 	pthread_mutex_lock(&mutex);
 	while (i < 10)
 	{
-		usleep(100000);
+		usleep(1000);
 		printf("i = %d\n", i++);
+		//printf("ici2\n");
 	}
 	printf("next thread\n");
 	pthread_mutex_unlock(&mutex);
@@ -46,15 +45,17 @@ void	set_philo(int nb_philo, int ac, char **av)
 //	t_data data;
 	//pthread_mutex_init(&data.write, NULL);
 	i = 0;
+	init_philo(philo, ac);
+	//printf("philo = %d\n", philo->number);
 	while (i < nb_philo)
 	{
-		pthread_create(&philo[i].philo, NULL, func1, NULL);
+		pthread_create(&philo[i].thread, NULL, func1, NULL);
 		i++;
 	}
 	i = 0;
 	while (i < nb_philo)
 	{
-		pthread_join(philo[i].philo, NULL);
+		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
 }

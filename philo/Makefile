@@ -7,6 +7,7 @@ NAME = philo
 MANDATORY = main.c\
 			parsing.c\
 			utils.c\
+			init.c\
 
 MANDATORY_SRCS	=	${MANDATORY}
 
