@@ -6,27 +6,27 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/13 17:58:39 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/16 13:53:17 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 void	*func1(void * arg)
 {
-	t_data data;
+	static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+	//t_data data;
 	(void) arg;
 	int i = 0;
-	pthread_mutex_init(&data.write, NULL);
-	pthread_mutex_lock(&data.write);
+	//pthread_mutex_init(&data.write, NULL);
+	pthread_mutex_lock(&mutex);
 	while (i < 10)
 	{
 		usleep(100000);
 		printf("i = %d\n", i++);
 	}
 	printf("next thread\n");
-	pthread_mutex_unlock(&data.write);
+	pthread_mutex_unlock(&mutex);
 	return (NULL);
 }
 
@@ -44,7 +44,7 @@ void	set_philo(int nb_philo, int ac, char **av)
 
 	init_data(&data, av, ac);
 //	t_data data;
-	pthread_mutex_init(&data.write, NULL);
+	//pthread_mutex_init(&data.write, NULL);
 	i = 0;
 	while (i < nb_philo)
 	{
