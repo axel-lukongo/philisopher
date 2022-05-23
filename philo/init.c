@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 14:07:04 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/23 18:03:58 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:48:30 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,36 @@ void	init_data(t_data *data, char **av, int ac)
 void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac)
 {
 	int i;
-	pthread_mutex_t mutex[nb_philo];
-
+	pthread_mutex_t fork[nb_philo];
+	t_data data;
 	i = 0;
-	init_data(&philo->data, av, ac);
-	init_mutex(mutex, philo);
+	init_data(&data, av, ac);
+	init_mutex(fork, data);
 	while (i < nb_philo)
 	{
 		memset(&philo[i], 0, sizeof(t_philosopher));
 		philo[i].id_philo = i;
 		philo[i].right = i;
 		philo[i].left = (i + 1) % nb_philo; 
-		philo[i].data.fork = &mutex[0];
+		philo[i].data.fork = &fork[0];
 		i++;
 	}
+	//philo[0].data = data;
+	printf("sleep = %d\n", philo[0].data.time_to_sleep);
 }
 
-int	init_mutex(pthread_mutex_t mutex[], t_philosopher *philo)
+int	init_mutex(pthread_mutex_t fork[], t_data data)
 {
 	int	i;
 
 	i = 0;
-	while (i < philo->data.nb_philo)
+	while (i < data.nb_philo)
 	{
-		pthread_mutex_init(&mutex[i], NULL);
-		//printf("mutex init = %p\n", &mutex[i]);
+		pthread_mutex_init(&fork[i], NULL);
+		//printf("fork init = %p\n", &fork[i]);
 		i++;
 	}
 	//printf("i = %d\n", i);
-	pthread_mutex_init(&philo->data.eat, NULL);
+	//pthread_mutex_init(&philo->data.eat, NULL);
 	return (1);
 }

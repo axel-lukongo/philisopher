@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/23 18:00:22 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:33:22 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	eat(t_philosopher *philo)
 	pthread_mutex_lock(&philo->data.eat);
 	printf("philo[%d] eat\n", philo->id_philo);
 	pthread_mutex_unlock(&philo->data.eat);
-	usleep(philo->data.time_to_eat * 1000);
+	usleep(1000000);
+	printf("time_sleep = %d\n", philo[0].data.time_to_sleep);
 	pthread_mutex_unlock(&philo->data.fork[right]);
 	pthread_mutex_unlock(&philo->data.fork[left]);
 }
@@ -37,13 +38,14 @@ void	eat(t_philosopher *philo)
 void	he_sleep(t_philosopher *philo)
 {
 	printf("philo [%d] sleep\n", philo->id_philo);
-	usleep(philo->data.time_to_sleep * 1000);
+	usleep(1000000);
 	printf("philo [%d] thinking\n", philo->id_philo);
 }
 
 void	*func1(void *arg)
 {
 	t_philosopher *philo;
+	//t_data data;
 
 	philo = (t_philosopher *)arg;
 	while(1)
