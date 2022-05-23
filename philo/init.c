@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 14:07:04 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/23 18:48:30 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/23 19:24:16 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac)
 {
 	int i;
 	pthread_mutex_t fork[nb_philo];
-	t_data data;
+	//t_data data;
+
 	i = 0;
-	init_data(&data, av, ac);
-	init_mutex(fork, data);
+	//init_data(&data, av, ac);
+	init_data(&philo->data, av, ac);
+	init_mutex(fork, philo->data);
 	while (i < nb_philo)
 	{
 		memset(&philo[i], 0, sizeof(t_philosopher));
@@ -38,8 +40,10 @@ void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac)
 		philo[i].left = (i + 1) % nb_philo; 
 		philo[i].data.fork = &fork[0];
 		i++;
+	//	init_data(&philo->data, av, ac);
 	}
 	//philo[0].data = data;
+	//printf("1\n");
 	printf("sleep = %d\n", philo[0].data.time_to_sleep);
 }
 
