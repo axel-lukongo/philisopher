@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:36:58 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/16 14:29:35 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:16:01 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@
 # include <stdlib.h>
 # include <string.h>
 
-typedef struct s_philosopher
-{
-	int	number;
-	pthread_t	thread;
-} t_philosopher;
-
 typedef struct s_data
 {
 	int	nb_philo;
@@ -34,13 +28,25 @@ typedef struct s_data
 	int time_to_eat;
 	int time_to_sleep;
 	int time_eat_each;
-	pthread_mutex_t write;
-	pthread_mutex_t lock;
+	pthread_mutex_t	*fork;
+	pthread_mutex_t	sleeper;
+	pthread_mutex_t	eat;
 } t_data;
 
-int	parsing(int ac, char **av);
-int	ft_atoi(const char *str);
+typedef struct s_philosopher
+{
+	int	left;
+	int	right;
+	int	id_philo;
+	t_data	data;
+	pthread_t	thread;
+} t_philosopher;
+
+
+int		parsing(int ac, char **av);
+int		ft_atoi(const char *str);
 void	*func1(void * arg);
 void	init_data(t_data *data, char **av, int ac);
- void init_philo(t_philosopher philo[], int ac);
+void	init_philo(t_philosopher philo[], int nb, char **av, int ac);
+int		init_mutex(pthread_mutex_t mutex[], t_philosopher *philo);
 #endif // !PHILO

@@ -6,50 +6,71 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/16 18:43:04 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:47:58 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*func1(void * arg)
+void	eat(t_philosopher *philo)
 {
-	static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-	(void) arg;
-	int i = 0;
-	pthread_mutex_lock(&mutex);
-	while (i < 10)
+	int left;
+	int right;
+
+	left = philo->left;
+	right = philo->right;
+//	printf("left = %d, right = %d\n", left, right);
+	//printf("philo_id = %d\n",philo->id_philo);
+	//printf("mutex = %p\n", (void *)philo->data.fork[right]);
+	pthread_mutex_lock(&philo->data.fork[right]);
+	printf("philo[%d] take right fork\n", philo->id_philo);
+	pthread_mutex_lock(&philo->data.fork[left]);
+	printf("philo[%d] take left fork\n", philo->id_philo);
+	pthread_mutex_lock(&philo->data.eat);
+	printf("philo[%d] eat\n", philo->id_philo);
+	pthread_mutex_unlock(&philo->data.eat);
+	usleep(philo->data.time_to_eat * 1000);
+	pthread_mutex_unlock(&philo->data.fork[right]);
+	pthread_mutex_unlock(&philo->data.fork[left]);
+}
+
+void	he_sleep(t_philosopher *philo)
+{
+	printf("philo [%d] sleep\n", philo->id_philo);
+	usleep(philo->data.time_to_sleep * 1000);
+	printf("philo [%d] thinking\n", philo->id_philo);
+}
+
+void	*func1(void *arg)
+{
+	t_philosopher *philo;
+
+	philo = (t_philosopher *)arg;
+	while(1)
 	{
-		usleep(1000);
-		printf("i = %d\n", i++);
-		//printf("ici2\n");
+		eat(philo);
+		he_sleep(philo);
 	}
-	printf("next thread\n");
-	pthread_mutex_unlock(&mutex);
 	return (NULL);
 }
 
-/*
-void joint_thread(t_philosopher philo[])
-{
-	
-}*/
-
-void	set_philo(int nb_philo, int ac, char **av)
+void	start_process(int nb_philo, int ac, char **av)
 {
 	t_philosopher philo[nb_philo];
-	t_data data;
 	int i;
+	pthread_mutex_t mutex[nb_philo];
+	int	test[nb_philo];
 
-	init_data(&data, av, ac);
-//	t_data data;
-	//pthread_mutex_init(&data.write, NULL);
+	test[0] = 1;
 	i = 0;
-	init_philo(philo, ac);
-	//printf("philo = %d\n", philo->number);
+	init_philo(philo, nb_philo, av, ac);
+	//printf("mutex[0] = %p\n", &mutex[0]);
+	//printf("mutex[1] = %p\n", &mutex[1]);
+	init_mutex(mutex, philo);
+	philo->data.fork = &mutex[0];
 	while (i < nb_philo)
 	{
-		pthread_create(&philo[i].thread, NULL, func1, NULL);
+		pthread_create(&philo[1].thread, NULL, func1, &philo[i]);
 		i++;
 	}
 	i = 0;
@@ -65,6 +86,6 @@ int main(int ac, char **av)
 	if ((parsing(ac, av) == ERROR) || (ac < 5 || ac > 6))
 		return(ERROR);
 	else
-		set_philo(ft_atoi(av[1]), ac, av);
+		start_process(ft_atoi(av[1]), ac, av);
 	return(0);
 }
