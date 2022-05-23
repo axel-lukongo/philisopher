@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/23 16:47:58 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:00:22 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,14 @@ void	start_process(int nb_philo, int ac, char **av)
 {
 	t_philosopher philo[nb_philo];
 	int i;
-	pthread_mutex_t mutex[nb_philo];
-	int	test[nb_philo];
 
-	test[0] = 1;
 	i = 0;
 	init_philo(philo, nb_philo, av, ac);
 	//printf("mutex[0] = %p\n", &mutex[0]);
-	//printf("mutex[1] = %p\n", &mutex[1]);
-	init_mutex(mutex, philo);
-	philo->data.fork = &mutex[0];
+	//init_mutex(mutex, philo);
+	//philo->data.fork = &mutex[0];
+	//printf("mutex[0] = %p\n", &mutex[0]);
+	//printf("philo[0].mutex[0] = %p\n", &philo[1].data.fork[0]);
 	while (i < nb_philo)
 	{
 		pthread_create(&philo[1].thread, NULL, func1, &philo[i]);

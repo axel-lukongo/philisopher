@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:36:58 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/23 16:16:01 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:03:12 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ int		parsing(int ac, char **av);
 int		ft_atoi(const char *str);
 void	*func1(void * arg);
 void	init_data(t_data *data, char **av, int ac);
-void	init_philo(t_philosopher philo[], int nb, char **av, int ac);
+void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac);
 int		init_mutex(pthread_mutex_t mutex[], t_philosopher *philo);
 #endif // !PHILO
