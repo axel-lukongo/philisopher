@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:58:18 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/11 13:14:53 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/24 00:29:11 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	ft_digit(int ac, char **av)
 
 int parsing(int ac, char **av)
 {
-	//i shouldn't forget to check if ac == 4
 	if (ft_digit(ac, av) == ERROR)
 		return(ERROR);
 	return(0);

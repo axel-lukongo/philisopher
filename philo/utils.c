@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:12 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/16 17:12:59 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/26 17:56:18 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,22 @@ int	ft_atoi(const char *str)
 	nbr = nbr * signe;
 	return (nbr);
 }
+
+
+long	get_time(void)
+{
+	long int			time;
+	struct timeval		current_time;
+
+	time = 0;
+	if (gettimeofday(&current_time, NULL) == -1)
+		return (0);
+	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
+	return (time);
+}
+/*
+void time_start(t_data *data)
+{
+	data->
+}
+*/

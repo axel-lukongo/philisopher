@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:36:58 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/23 19:21:00 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/25 19:11:00 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_data
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	sleeper;
 	pthread_mutex_t	eat;
+	long			time_start;
+	long			time_ustart;
 } t_data;
 
 typedef struct s_philosopher
@@ -49,4 +51,5 @@ void	*func1(void * arg);
 void	init_data(t_data *data, char **av, int ac);
 void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac);
 int		init_mutex(pthread_mutex_t mutex[], t_data data);
+long	get_time(void);
 #endif // !PHILO
