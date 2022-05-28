@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/28 14:43:16 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/28 14:53:45 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,19 @@
 
 void	eat(t_philosopher *philo)
 {
-	int left;
-	int right;
 	t_data *data;
 
 
 	data = &philo->data;
-	left = philo->left;
-	right = philo->right;
-	//pthread_mutex_lock(&mutex);
 	pthread_mutex_lock(&data->fork[philo->right]);
-	printf("%ld %d has take fork right\n", get_time() - philo->data.time_start, philo->id_philo);
-	//printf("add_right = %p philo[%d]\n", &philo->data.fork[right],philo->id_philo);
+	printf("%ld %d has take fork\n", get_time() - philo->data.time_start, philo->id_philo);
 	pthread_mutex_lock(&data->fork[philo->left]);
-	printf("%ld %d has take fork left\n", get_time() - philo->data.time_start, philo->id_philo);
-	//printf("add_left = %p philo[%d]\n", &philo->data.fork[left], philo->id_philo);
+	printf("%ld %d has take fork\n", get_time() - philo->data.time_start, philo->id_philo);
 	pthread_mutex_lock(&philo->data.eat);
 	printf("%ld %d eat\n", get_time() - philo->data.time_start, philo->id_philo);
 	usleep(philo->data.time_to_eat * 1000);
-//	printf("philo[%d], unlock all\n",philo->id_philo);
 	pthread_mutex_unlock(&data->eat);
 	pthread_mutex_unlock(&data->fork[philo->right]);
-	//pthread_mutex_unlock(&mutex);
 	pthread_mutex_unlock(&data->fork[philo->left]);
 }
 
@@ -53,12 +44,8 @@ void	he_sleep(t_philosopher *philo)
 void	*func1(void *arg)
 {
 	t_philosopher *philo;
-	//t_data	*data;
 
 	philo = (t_philosopher *)arg;
-	//data = &philo->data;
-	//data->time_start = get_time();
-	//printf("%ld %d is thinking\n", data->time_start, philo->id_philo);
 	while(1)
 	{
 		eat(philo);
@@ -74,7 +61,6 @@ void	start_process(int nb_philo, int ac, char **av)
 	int ret;
 	i = 0;
 	init_philo(philo, nb_philo, av, ac);
-	//printf("");
 	while (i < nb_philo)
 	{
 		if(i %2 == 0)
@@ -82,6 +68,7 @@ void	start_process(int nb_philo, int ac, char **av)
 		usleep(philo->data.time_to_eat / 10);
 		i++;
 	}
+	usleep(800);
 	i = 0;
 	while (i < nb_philo)
 	{
