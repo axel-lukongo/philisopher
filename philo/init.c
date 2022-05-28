@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 14:07:04 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/26 18:55:43 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/27 15:01:05 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	init_data(t_data *data, char **av, int ac)
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	data->time_start = get_time();
-	//printf("time_start = %ld\n", data->time_start);
 	if (ac == 6)
 		data->nb_meal = ft_atoi(av[5]);
 }
@@ -28,10 +27,8 @@ void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac)
 {
 	int i;
 	pthread_mutex_t fork[nb_philo];
-	//t_data data;
 
 	i = 0;
-	//init_data(&data, av, ac);
 	init_data(&philo->data, av, ac);
 	init_mutex(fork, philo->data);
 	while (i < nb_philo)
@@ -44,7 +41,6 @@ void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac)
 		init_data(&philo[i].data, av, ac);
 		i++;
 	}
-	//printf("time_sleep = %d\n", philo[1].data.time_to_sleep);
 }
 
 int	init_mutex(pthread_mutex_t fork[], t_data data)

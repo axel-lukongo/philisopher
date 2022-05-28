@@ -6,34 +6,39 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/26 22:28:31 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/28 14:43:16 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	eat(t_philosopher *philo, t_data *data)
+//pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void	eat(t_philosopher *philo)
 {
 	int left;
 	int right;
-//	t_data data;
+	t_data *data;
 
 
-	(void) data;
+	data = &philo->data;
 	left = philo->left;
 	right = philo->right;
-	pthread_mutex_lock(&philo->data.fork[right]);
-	printf("%ld %d has take fork\n", get_time() - philo->data.time_start, philo->id_philo);
-	pthread_mutex_lock(&philo->data.fork[left]);
-	printf("%ld %d has take fork\n", get_time() - philo->data.time_start, philo->id_philo);
+	//pthread_mutex_lock(&mutex);
+	pthread_mutex_lock(&data->fork[philo->right]);
+	printf("%ld %d has take fork right\n", get_time() - philo->data.time_start, philo->id_philo);
+	//printf("add_right = %p philo[%d]\n", &philo->data.fork[right],philo->id_philo);
+	pthread_mutex_lock(&data->fork[philo->left]);
+	printf("%ld %d has take fork left\n", get_time() - philo->data.time_start, philo->id_philo);
+	//printf("add_left = %p philo[%d]\n", &philo->data.fork[left], philo->id_philo);
 	pthread_mutex_lock(&philo->data.eat);
 	printf("%ld %d eat\n", get_time() - philo->data.time_start, philo->id_philo);
-	pthread_mutex_unlock(&philo->data.eat);
-	usleep(500000);
-//	usleep(philo->data.time_to_eat * 1000);
-	//printf("time = %ld id_philo = %d \n", get_time() -  philo->data.time_start, philo->id_philo);
-	pthread_mutex_unlock(&philo->data.fork[right]);
-	pthread_mutex_unlock(&philo->data.fork[left]);
+	usleep(philo->data.time_to_eat * 1000);
+//	printf("philo[%d], unlock all\n",philo->id_philo);
+	pthread_mutex_unlock(&data->eat);
+	pthread_mutex_unlock(&data->fork[philo->right]);
+	//pthread_mutex_unlock(&mutex);
+	pthread_mutex_unlock(&data->fork[philo->left]);
 }
 
 /*the problem come frome the last argument 
@@ -41,21 +46,22 @@ the seconde thread take it for start his seconde turn*/
 void	he_sleep(t_philosopher *philo)
 {
 	printf("%ld %d is sleeping\n", get_time() - philo->data.time_start, philo->id_philo);
-	usleep(100000);
-	//usleep(philo->data.time_to_sleep * 1000);
+	usleep(philo->data.time_to_sleep * 1000);
 	printf("%ld %d is thinking\n", get_time() - philo->data.time_start, philo->id_philo);
 }
 
 void	*func1(void *arg)
 {
 	t_philosopher *philo;
-	t_data	*data;
+	//t_data	*data;
 
 	philo = (t_philosopher *)arg;
-	data = &philo->data;
+	//data = &philo->data;
+	//data->time_start = get_time();
+	//printf("%ld %d is thinking\n", data->time_start, philo->id_philo);
 	while(1)
 	{
-		eat(philo, data);
+		eat(philo);
 		he_sleep(philo);
 	}
 	return (NULL);
@@ -68,16 +74,21 @@ void	start_process(int nb_philo, int ac, char **av)
 	int ret;
 	i = 0;
 	init_philo(philo, nb_philo, av, ac);
-	printf("");
+	//printf("");
 	while (i < nb_philo)
 	{
-		ret = pthread_create(&philo[i].thread, NULL, func1, &philo[i]);
-		usleep(philo->data.time_to_sleep * 1000);
-		//ret = pthread_create(&philo[1].thread, NULL, func1, &philo[i]);
-		if (ret)
-			printf("Error\n");
+		if(i %2 == 0)
+			ret = pthread_create(&philo[i].thread, NULL, func1, &philo[i]);
+		usleep(philo->data.time_to_eat / 10);
 		i++;
-		//i++;
+	}
+	i = 0;
+	while (i < nb_philo)
+	{
+		if(i %2 == 1)
+			ret = pthread_create(&philo[i].thread, NULL, func1, &philo[i]);
+		usleep(philo->data.time_to_eat / 10);
+		i++;
 	}
 	i = 0;
 	while (i < nb_philo)

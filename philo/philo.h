@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:36:58 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/25 19:11:00 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/28 13:25:47 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_philosopher
 	pthread_t	thread;
 } t_philosopher;
 
+t_data	g_data;
 
 int		parsing(int ac, char **av);
 int		ft_atoi(const char *str);
