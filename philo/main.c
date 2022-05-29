@@ -6,34 +6,33 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/28 14:53:45 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/29 05:49:13 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-
 void	eat(t_philosopher *philo)
 {
 	t_data *data;
 
-
 	data = &philo->data;
-	pthread_mutex_lock(&data->fork[philo->right]);
-	printf("%ld %d has take fork\n", get_time() - philo->data.time_start, philo->id_philo);
-	pthread_mutex_lock(&data->fork[philo->left]);
-	printf("%ld %d has take fork\n", get_time() - philo->data.time_start, philo->id_philo);
-	pthread_mutex_lock(&philo->data.eat);
-	printf("%ld %d eat\n", get_time() - philo->data.time_start, philo->id_philo);
-	usleep(philo->data.time_to_eat * 1000);
-	pthread_mutex_unlock(&data->eat);
-	pthread_mutex_unlock(&data->fork[philo->right]);
-	pthread_mutex_unlock(&data->fork[philo->left]);
+	if (philo->data.nb_meal != philo->data.meal_max)
+	{
+		pthread_mutex_lock(&data->fork[philo->right]);
+		printf("%ld %d has take fork \n", get_time() - philo->data.time_start, philo->id_philo);
+		pthread_mutex_lock(&data->fork[philo->left]);
+		printf("%ld %d has take fork\n", get_time() - philo->data.time_start, philo->id_philo);
+		pthread_mutex_lock(&philo->data.eat);
+		printf("%ld %d eat\n", get_time() - philo->data.time_start, philo->id_philo);
+		philo->data.nb_meal = philo->data.nb_meal + 1;
+		pthread_mutex_unlock(&philo->data.eat);
+		usleep(philo->data.time_to_eat * 1000);
+		pthread_mutex_unlock(&data->fork[philo->right]);
+		pthread_mutex_unlock(&data->fork[philo->left]);
+	}
 }
 
-/*the problem come frome the last argument 
-the seconde thread take it for start his seconde turn*/
 void	he_sleep(t_philosopher *philo)
 {
 	printf("%ld %d is sleeping\n", get_time() - philo->data.time_start, philo->id_philo);
@@ -46,7 +45,7 @@ void	*func1(void *arg)
 	t_philosopher *philo;
 
 	philo = (t_philosopher *)arg;
-	while(1)
+	while(philo->data.nb_meal != philo->data.meal_max)
 	{
 		eat(philo);
 		he_sleep(philo);
@@ -83,9 +82,11 @@ void	start_process(int nb_philo, int ac, char **av)
 		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
+	if (philo[i-1].data.nb_meal == philo->data.meal_max)
+		write(1, "every body eat anought\n", 24);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	if ((parsing(ac, av) == ERROR) || (ac < 5 || ac > 6))
 		return(ERROR);
