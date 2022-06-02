@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int	verif_death(t_philosopher *philo, int nb_philo, int time_actual)
+int	check_death(t_philosopher *philo, int nb_philo, int time_actual)
 {
 	int	i;
 	int	j;
@@ -42,15 +42,20 @@ void	eat(t_philosopher *philo)
 {
 	t_data *data;
 	long	time;
+	int		ret;
 	data = &philo->data;
 	time = get_time() - philo->data.time_start;
-	verif_death(philo, data->nb_philo, get_time() - philo->data.time_start);
-	if (philo->data.nb_meal != philo->data.meal_max && philo->is_die != IS_DEAD)
+	ret = check_death(philo, data->nb_philo, get_time() - philo->data.time_start);
+	if (philo->data.nb_meal != philo->data.meal_max && ret != IS_DEAD)
 	{
 		pthread_mutex_lock(&data->fork[philo->right]);
-		printf("%ld %d has take fork \n", get_time() - philo->data.time_start, philo->id_philo);
+		ret = check_death(philo, data->nb_philo, get_time() - philo->data.time_start);
+		if(ret != IS_DEAD)
+			printf("%ld %d has take fork \n", get_time() - philo->data.time_start, philo->id_philo);
 		pthread_mutex_lock(&data->fork[philo->left]);
-		printf("%ld %d has take fork\n", get_time() - philo->data.time_start, philo->id_philo);
+		ret = check_death(philo, data->nb_philo, get_time() - philo->data.time_start);
+		if(ret != IS_DEAD)
+			printf("%ld %d has take fork\n", get_time() - philo->data.time_start, philo->id_philo);
 		pthread_mutex_lock(&philo->data.eat);
 		printf("%ld %d eat\n", get_time() - philo->data.time_start, philo->id_philo);
 		philo->data.nb_meal += 1;
@@ -60,38 +65,22 @@ void	eat(t_philosopher *philo)
 		philo->last_eat = get_time() - philo->data.time_start;
 		pthread_mutex_unlock(&data->fork[philo->right]);
 		pthread_mutex_unlock(&data->fork[philo->left]);
-		verif_death(philo, data->nb_philo, get_time() - philo->data.time_start);
-	}
-}
-
-void ft_usleep(t_philosopher *philo)
-{
-	int i;
-	int ret;
-
-	i = 0;
-	while (i < philo->data.time_to_sleep)
-	{
-		ret = verif_death(philo, philo->data.nb_philo, get_time() - philo->data.time_start);
-		if (ret == IS_DEAD)
-			break;
-		usleep(1000);
-		i++;
+		check_death(philo, data->nb_philo, get_time() - philo->data.time_start);
 	}
 }
 
 void	he_sleep(t_philosopher *philo)
 {
-	long time;
-
+	long	time;
+	int		ret;
 	time = get_time() - philo->data.time_start;
-	if(philo->is_die != IS_DEAD)
+	ret = check_death(philo, philo->data.nb_philo, time);
+	if(ret != IS_DEAD)
 	{
-		verif_death(philo, philo->data.nb_philo, time);
 		printf("%ld %d is sleeping\n", get_time() - philo->data.time_start, philo->id_philo);
 		ft_usleep(philo);
 		usleep(10);
-		if(philo->is_die != IS_DEAD)
+		if(ret != IS_DEAD)
 			printf("%ld %d is thinking\n", get_time() - philo->data.time_start, philo->id_philo);
 	}
 }

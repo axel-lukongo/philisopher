@@ -62,4 +62,6 @@ int		init_mutex(pthread_mutex_t mutex[], t_data data);
 long	get_time(void);
 int		check_life(t_philosopher *philo);
 void	join_thread(t_philosopher *philo);
+void	ft_usleep(t_philosopher *philo);
+int		check_death(t_philosopher *philo, int nb_philo, int time_actual);
 #endif // !PHILO

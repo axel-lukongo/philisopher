@@ -52,65 +52,23 @@ long	get_time(void)
 	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 	return (time);
 }
-/*
-int	check_life(t_philosopher *philo)
+
+void ft_usleep(t_philosopher *philo)
 {
 	int i;
-	int flag;
-	long time_actual;
+	int ret;
 
-	time_actual = get_time();
 	i = 0;
-	while (i < philo->data.nb_philo)
+	while (i < philo->data.time_to_sleep)
 	{
-		if ((time_actual - philo->data.time_start) > philo[i].last_eat)
-		{
-			printf("%ld %d died\n", time_actual - philo->data.time_start, philo->id_philo);
-			return (DIE);
-		}
-		i++;
-	}
-	i = 0;
-	while (i < philo->data.nb_philo)
-	{
-		if (philo[i].data.nb_meal == philo->data.meal_max)
-			flag = EAT_ANOUGHT;
-		else
-		{
-			flag = 1;
+		ret = check_death(philo, philo->data.nb_philo, get_time() - philo->data.time_start);
+		if (ret == IS_DEAD)
 			break;
-		}
+		usleep(1000);
 		i++;
 	}
-	return (flag);
-}*/
-
-
-/*
-void *monitor_function(void *arg)
-{
-	t_philosopher *philo;
-
-	philo = (t_philosopher *) arg;
-	while (1)
-	{
-		
-	}
 }
 
-void monitor(t_philosopher *philo)
-{
-	int	i;
-
-	i = -1;
-	while (++i < nb_philo)
-	{
-		ret = pthread_create(&philo[i].thread, NULL, monitor_function, &philo[i]);
-		usleep(philo->data.time_to_eat / 10);
-	}
-	join_thread(philo);
-}
-*/
 void join_thread(t_philosopher *philo)
 {
 	int	i;
