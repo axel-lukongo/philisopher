@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:12 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/26 17:56:18 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:59:17 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,72 @@ long	get_time(void)
 	return (time);
 }
 /*
-void time_start(t_data *data)
+int	check_life(t_philosopher *philo)
 {
-	data->
+	int i;
+	int flag;
+	long time_actual;
+
+	time_actual = get_time();
+	i = 0;
+	while (i < philo->data.nb_philo)
+	{
+		if ((time_actual - philo->data.time_start) > philo[i].last_eat)
+		{
+			printf("%ld %d died\n", time_actual - philo->data.time_start, philo->id_philo);
+			return (DIE);
+		}
+		i++;
+	}
+	i = 0;
+	while (i < philo->data.nb_philo)
+	{
+		if (philo[i].data.nb_meal == philo->data.meal_max)
+			flag = EAT_ANOUGHT;
+		else
+		{
+			flag = 1;
+			break;
+		}
+		i++;
+	}
+	return (flag);
+}*/
+
+
+/*
+void *monitor_function(void *arg)
+{
+	t_philosopher *philo;
+
+	philo = (t_philosopher *) arg;
+	while (1)
+	{
+		
+	}
+}
+
+void monitor(t_philosopher *philo)
+{
+	int	i;
+
+	i = -1;
+	while (++i < nb_philo)
+	{
+		ret = pthread_create(&philo[i].thread, NULL, monitor_function, &philo[i]);
+		usleep(philo->data.time_to_eat / 10);
+	}
+	join_thread(philo);
 }
 */
+void join_thread(t_philosopher *philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo->data.nb_philo)
+	{
+		pthread_join(philo[i].thread, NULL);
+		i++;
+	}
+}

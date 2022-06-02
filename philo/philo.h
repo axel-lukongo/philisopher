@@ -6,12 +6,15 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:36:58 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/28 15:32:34 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:19:33 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO
 # define PHILO
+# define EAT_ANOUGHT 12
+# define ALIVE 2
+# define IS_DEAD -1
 # define ERROR 1
 # include <stdio.h>
 # include <pthread.h>
@@ -32,6 +35,7 @@ typedef struct s_data
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	sleeper;
 	pthread_mutex_t	eat;
+	pthread_mutex_t	dead;
 	long			time_start;
 	long			time_ustart;
 } t_data;
@@ -41,6 +45,8 @@ typedef struct s_philosopher
 	int	left;
 	int	right;
 	int	id_philo;
+	int	last_eat;
+	int is_die;
 	t_data	data;
 	pthread_t	thread;
 } t_philosopher;
@@ -54,4 +60,6 @@ void	init_data(t_data *data, char **av, int ac);
 void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac);
 int		init_mutex(pthread_mutex_t mutex[], t_data data);
 long	get_time(void);
+int		check_life(t_philosopher *philo);
+void	join_thread(t_philosopher *philo);
 #endif // !PHILO
