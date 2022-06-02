@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:12 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/31 13:59:17 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/02 18:19:41 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,11 @@ void join_thread(t_philosopher *philo)
 	int	i;
 
 	i = 0;
-	while (i < philo->data.nb_philo)
+	while (i < philo->data.nb_philo && philo->is_die != IS_DEAD)
 	{
 		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
+	if (philo->is_die != IS_DEAD)
+		printf("eat anought\n");
 }
