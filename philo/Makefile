@@ -15,7 +15,7 @@ BONUS_SRCS	=	${BONUS}
 
 MANDATORY_OBJS	= ${MANDATORY_SRCS:.c=.o}
 
-CFLAGS	= -g -Wall -Werror -Wextra -fsanitize=thread
+CFLAGS	= -g -Wall -Werror -Wextra
 
 .c.o:
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
