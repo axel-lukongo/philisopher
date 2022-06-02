@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/02 19:55:21 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:12:56 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	verif_death(t_philosopher *philo, int nb_philo, int time_actual)
 		if ((time_actual - philo->last_eat) > philo->data.time_to_die)
 		{
 			while (++j < nb_philo)
-				philo[j].is_die = IS_DEAD;
+				return (IS_DEAD);
+				//philo[j].is_die = IS_DEAD;
 			printf("%ld %d is_dead\n" , get_time() - philo->data.time_start, philo[i].id_philo);
 			break;
 		}
@@ -41,9 +42,7 @@ void	eat(t_philosopher *philo)
 {
 	t_data *data;
 	long	time;
-	int	i = 0;
 	data = &philo->data;
-	//philo->data.nb_meal = 0;
 	time = get_time() - philo->data.time_start;
 	verif_death(philo, data->nb_philo, get_time() - philo->data.time_start);
 	if (philo->data.nb_meal != philo->data.meal_max && philo->is_die != IS_DEAD)
@@ -52,8 +51,6 @@ void	eat(t_philosopher *philo)
 		printf("%ld %d has take fork \n", get_time() - philo->data.time_start, philo->id_philo);
 		pthread_mutex_lock(&data->fork[philo->left]);
 		printf("%ld %d has take fork\n", get_time() - philo->data.time_start, philo->id_philo);
-		//i = i + 1;
-		printf("philo[%d] eat = %d i = %d\n", philo->id_philo, philo->data.nb_meal, i);
 		pthread_mutex_lock(&philo->data.eat);
 		printf("%ld %d eat\n", get_time() - philo->data.time_start, philo->id_philo);
 		philo->data.nb_meal += 1;
@@ -70,12 +67,13 @@ void	eat(t_philosopher *philo)
 void ft_usleep(t_philosopher *philo)
 {
 	int i;
+	int ret;
 
 	i = 0;
 	while (i < philo->data.time_to_sleep)
 	{
-		verif_death(philo, philo->data.nb_philo, get_time() - philo->data.time_start);
-		if (philo->is_die == IS_DEAD)
+		ret = verif_death(philo, philo->data.nb_philo, get_time() - philo->data.time_start);
+		if (ret == IS_DEAD)
 			break;
 		usleep(1000);
 		i++;
@@ -110,7 +108,13 @@ void	*func1(void *arg)
 	}
 	return (NULL);
 }
-
+/**
+ * @brief here i will initialize my philo, creat a thread for every 
+ * 
+ * @param nb_philo 
+ * @param ac 
+ * @param av 
+ */
 void	start_process(int nb_philo, int ac, char **av)
 {
 	t_philosopher philo[nb_philo];
