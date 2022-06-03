@@ -23,18 +23,20 @@ int	check_death(t_philosopher *philo, int nb_philo, int time_actual)
 	j = -1;
 	while (i < nb_philo)
 	{
-		pthread_mutex_lock(&philo->data.dead);
-		if ((time_actual - philo->last_eat) > philo->data.time_to_die)
+		pthread_mutex_lock(&philo[i].data.dead);
+		if ((time_actual - philo[i].last_eat) > philo->data.time_to_die)
 		{
 			while (++j < nb_philo)
-				return (IS_DEAD);
-				//philo[j].is_die = IS_DEAD;
+				philo[j].is_die = IS_DEAD;
 			printf("%ld %d is_dead\n" , get_time() - philo->data.time_start, philo[i].id_philo);
+			pthread_mutex_unlock(&philo[i].data.dead);
+			return (IS_DEAD);
 			break;
 		}
 		i++;
+		pthread_mutex_unlock(&philo[i - 1].data.dead);
 	}
-	pthread_mutex_unlock(&philo->data.dead);
+	pthread_mutex_unlock(&philo[i].data.dead);
 	return (i);
 }
 
