@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:12 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/08 15:51:59 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/08 18:48:45 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ long	get_time(void)
 	return (time);
 }
 
-<<<<<<< HEAD
 void ft_usleep(t_philosopher *philo, int time_to)
 {
 //	int i;
@@ -78,22 +77,6 @@ void ft_usleep(t_philosopher *philo, int time_to)
 			usleep(100);
 	}
 	//printf("ici\n");
-=======
-void ft_usleep(t_philosopher *philo)
-{
-	int i;
-	int ret;
-
-	i = 0;
-	while (i < philo->data.time_to_sleep)
-	{
-		ret = check_death(philo, philo->data.nb_philo, get_time() - philo->data.time_start);
-		if (ret == IS_DEAD)
-			break;
-		usleep(1000);
-		i++;
-	}
->>>>>>> 5ec77d6eabd1c9dc35579b7e982f3ecc63ee7792
 }
 
 void join_thread(t_philosopher *philo)
@@ -106,11 +89,6 @@ void join_thread(t_philosopher *philo)
 		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
-<<<<<<< HEAD
 	if (*philo->is_die != IS_DEAD)
 		printf("eat enough\n");
-=======
-	if (philo->is_die != IS_DEAD)
-		printf("eat anought\n");
->>>>>>> 5ec77d6eabd1c9dc35579b7e982f3ecc63ee7792
 }

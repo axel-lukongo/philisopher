@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:36:58 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/08 14:47:55 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/08 18:49:06 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,6 @@ int		init_mutex(pthread_mutex_t mutex[], t_data data);
 long	get_time(void);
 int		check_life(t_philosopher *philo);
 void	join_thread(t_philosopher *philo);
-<<<<<<< HEAD
 void	ft_usleep(t_philosopher *philo, int time_to);
 //int		verif_death(t_philosopher *philo, int nb_philo, int time_actual);
-=======
-void	ft_usleep(t_philosopher *philo);
-int		check_death(t_philosopher *philo, int nb_philo, int time_actual);
->>>>>>> 5ec77d6eabd1c9dc35579b7e982f3ecc63ee7792
 #endif // !PHILO
