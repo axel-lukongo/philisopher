@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:36:58 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/31 14:19:33 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/08 14:47:55 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 # define PHILO
 # define EAT_ANOUGHT 12
 # define ALIVE 2
-# define IS_DEAD -1
+# define IS_DEAD -5
 # define ERROR 1
+# define WIN 3
 # include <stdio.h>
 # include <pthread.h>
 # include <unistd.h>
@@ -32,6 +33,7 @@ typedef struct s_data
 	int time_to_eat;
 	int time_to_sleep;
 	int time_eat_each;
+	//int *death;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	sleeper;
 	pthread_mutex_t	eat;
@@ -44,9 +46,10 @@ typedef struct s_philosopher
 {
 	int	left;
 	int	right;
+	int win;
 	int	id_philo;
 	int	last_eat;
-	int is_die;
+	int *is_die;
 	t_data	data;
 	pthread_t	thread;
 } t_philosopher;
@@ -62,6 +65,11 @@ int		init_mutex(pthread_mutex_t mutex[], t_data data);
 long	get_time(void);
 int		check_life(t_philosopher *philo);
 void	join_thread(t_philosopher *philo);
+<<<<<<< HEAD
+void	ft_usleep(t_philosopher *philo, int time_to);
+//int		verif_death(t_philosopher *philo, int nb_philo, int time_actual);
+=======
 void	ft_usleep(t_philosopher *philo);
 int		check_death(t_philosopher *philo, int nb_philo, int time_actual);
+>>>>>>> 5ec77d6eabd1c9dc35579b7e982f3ecc63ee7792
 #endif // !PHILO

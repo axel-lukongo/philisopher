@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:12 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/02 18:19:41 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/08 15:51:59 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,32 @@ long	get_time(void)
 	return (time);
 }
 
+<<<<<<< HEAD
+void ft_usleep(t_philosopher *philo, int time_to)
+{
+//	int i;
+	long var;
+	long test;
+
+	
+	var = get_time();
+	while (1)
+	{
+		test = get_time() - var;
+		if (test > time_to || *philo->is_die == IS_DEAD)
+		{
+//	printf("test = %ld philo[%d] death = %d\n", test, philo->id_philo, *philo->is_die);
+			//printf("time_to = %d, test = %ld philo_die = %d\n", time_to, test, *philo->is_die);
+			break;
+		}
+		test = time_to - test;
+		if(test < 1000)
+			usleep(test / 10);
+		else
+			usleep(100);
+	}
+	//printf("ici\n");
+=======
 void ft_usleep(t_philosopher *philo)
 {
 	int i;
@@ -67,6 +93,7 @@ void ft_usleep(t_philosopher *philo)
 		usleep(1000);
 		i++;
 	}
+>>>>>>> 5ec77d6eabd1c9dc35579b7e982f3ecc63ee7792
 }
 
 void join_thread(t_philosopher *philo)
@@ -74,11 +101,16 @@ void join_thread(t_philosopher *philo)
 	int	i;
 
 	i = 0;
-	while (i < philo->data.nb_philo && philo->is_die != IS_DEAD)
+	while (i < philo->data.nb_philo && *philo->is_die != IS_DEAD)
 	{
 		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
+<<<<<<< HEAD
+	if (*philo->is_die != IS_DEAD)
+		printf("eat enough\n");
+=======
 	if (philo->is_die != IS_DEAD)
 		printf("eat anought\n");
+>>>>>>> 5ec77d6eabd1c9dc35579b7e982f3ecc63ee7792
 }

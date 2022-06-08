@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 14:07:04 by alukongo          #+#    #+#             */
-/*   Updated: 2022/05/31 13:22:22 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/08 14:53:02 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac)
 {
 	int i;
 	pthread_mutex_t fork[nb_philo];
+	int death;
 
+	death = ALIVE;
 	i = 0;
 	init_data(&philo->data, av, ac);
 	init_mutex(fork, philo->data);
@@ -39,7 +41,8 @@ void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac)
 		memset(&philo[i], 0, sizeof(t_philosopher));
 		philo[i].id_philo = i + 1;
 		philo[i].right = i;
-		philo[i].is_die = ALIVE;
+		philo[i].win = 0;
+		philo[i].is_die = &death;
 		philo[i].left = (i + 1) % nb_philo; 
 		philo[i].data.fork = &fork[0];
 		philo[i].last_eat = 0;
