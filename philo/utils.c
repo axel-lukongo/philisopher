@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:12 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/08 18:48:45 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:02:06 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ long	get_time(void)
 
 void ft_usleep(t_philosopher *philo, int time_to)
 {
-//	int i;
 	long var;
 	long test;
 
@@ -64,19 +63,16 @@ void ft_usleep(t_philosopher *philo, int time_to)
 	while (1)
 	{
 		test = get_time() - var;
+		pthread_mutex_lock(&philo->data.dead);
 		if (test > time_to || *philo->is_die == IS_DEAD)
-		{
-//	printf("test = %ld philo[%d] death = %d\n", test, philo->id_philo, *philo->is_die);
-			//printf("time_to = %d, test = %ld philo_die = %d\n", time_to, test, *philo->is_die);
 			break;
-		}
+		pthread_mutex_unlock(&philo->data.dead);
 		test = time_to - test;
 		if(test < 1000)
 			usleep(test / 10);
 		else
 			usleep(100);
 	}
-	//printf("ici\n");
 }
 
 void join_thread(t_philosopher *philo)

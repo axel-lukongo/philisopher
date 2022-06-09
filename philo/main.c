@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/08 18:54:07 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:07:21 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,28 @@ int death(t_philosopher *philo)
 	while (i < philo->data.nb_philo)
 	{
 		time_actual = get_time() - philo->data.time_start;
+//		pthread_mutex_lock(&philo->data.eat);
 		pthread_mutex_lock(&philo->data.dead);
-		if(philo->data.nb_meal == philo->data.meal_max)
+		if(philo->data.nb_meal == philo->data.meal_max) //1 nolock
 			return (WIN);
-		else if (philo->last_eat > 0)
+		else if (philo->last_eat > 0) //2lock 1 nolock
 		{
-			if ((time_actual - philo->last_eat) >= philo->data.time_to_die)
+			if ((time_actual - philo->last_eat) >= philo->data.time_to_die) //2 lock
 			{
-				*philo->is_die = IS_DEAD;
-				//printf("time_actual = %ld philo[%d] last_eat = %d\n", time_actual - philo->last_eat, philo->id_philo,philo->last_eat);
+				*philo->is_die = IS_DEAD; //1 nolock
 				printf("%ld %d is_dead\n" , get_time() - philo->data.time_start, philo[i].id_philo);
-				pthread_mutex_unlock(&philo->data.dead);
+		//		pthread_mutex_unlock(&philo->data.eat);
+				pthread_mutex_unlock(&philo->data.dead); //2 lock
 				return(IS_DEAD);
 			}
 		}
-		pthread_mutex_unlock(&philo->data.dead);
+	//	pthread_mutex_unlock(&philo->data.eat);
 		i++;
-		pthread_mutex_unlock(&philo[i - 1].data.dead);
 	}
+		pthread_mutex_unlock(&philo->data.dead);
 	return (0);
 }
-
+//je vais essayer de locker avec le lock eat
 void	eat(t_philosopher *philo)
 {
 	t_data *data;
@@ -52,7 +53,6 @@ void	eat(t_philosopher *philo)
 	if (philo->data.nb_meal != philo->data.meal_max && *philo->is_die != IS_DEAD)
 	{
 		pthread_mutex_lock(&data->fork[philo->right]);
-	//	ret = check_death(philo, data->nb_philo, get_time() - philo->data.time_start);
 		if(*philo->is_die != IS_DEAD)
 			printf("%ld %d has take fork \n", get_time() - philo->data.time_start, philo->id_philo);
 		pthread_mutex_lock(&data->fork[philo->left]);
@@ -61,8 +61,12 @@ void	eat(t_philosopher *philo)
 		pthread_mutex_lock(&philo->data.eat);
 		if(*philo->is_die != IS_DEAD)
 			printf("%ld %d eat \n", get_time() - philo->data.time_start, philo->id_philo);
-		philo->data.nb_meal += 1;
+		//pthread_mutex_lock(&philo->data.dead);
 		philo->last_eat = get_time() - philo->data.time_start;
+		//pthread_mutex_unlock(&philo->data.dead);
+		pthread_mutex_lock(&philo->data.dead);
+		philo->data.nb_meal += 1;
+		pthread_mutex_unlock(&philo->data.dead);
 		ft_usleep(philo, philo->data.time_to_eat);
 		philo->last_eat = get_time() - philo->data.time_start;
 		pthread_mutex_unlock(&philo->data.eat);
@@ -73,9 +77,6 @@ void	eat(t_philosopher *philo)
 
 void	he_sleep(t_philosopher *philo)
 {
-	long	time;
-	//int		ret;
-	time = get_time() - philo->data.time_start;
 	if(*philo->is_die != IS_DEAD)
 	{
 		if(*philo->is_die != IS_DEAD)
@@ -144,9 +145,6 @@ int	main(int ac, char **av)
 	if ((parsing(ac, av) == ERROR) || (ac < 5 || ac > 6))
 		return(ERROR);
 	else
-	{
 		start_process(ft_atoi(av[1]), ac, av);
-		
-	}
 	return(0);
 }
