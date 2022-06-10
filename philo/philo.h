@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:36:58 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/08 18:49:06 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/10 21:37:21 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_data
 	int time_to_eat;
 	int time_to_sleep;
 	int time_eat_each;
-	//int *death;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	sleeper;
 	pthread_mutex_t	eat;
