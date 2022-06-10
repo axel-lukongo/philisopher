@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:12 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/09 18:02:06 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/10 14:28:44 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,21 @@ void ft_usleep(t_philosopher *philo, int time_to)
 			usleep(100);
 	}
 }
+int	clear_mutex(t_philosopher *philo)
+{
+	int	ret;
+	int	i;
+
+	i = -1;
+	while (++i < philo->data.nb_philo)
+	{
+		ret = pthread_mutex_destroy(&philo->data.fork[i]);
+	}
+	ret = pthread_mutex_destroy(&philo->data.eat);
+	ret = pthread_mutex_destroy(&philo->data.dead);
+	ret = pthread_mutex_destroy(&philo->data.sleeper);
+	return (ret);
+}
 
 void join_thread(t_philosopher *philo)
 {
@@ -87,4 +102,5 @@ void join_thread(t_philosopher *philo)
 	}
 	if (*philo->is_die != IS_DEAD)
 		printf("eat enough\n");
+	clear_mutex(philo);
 }

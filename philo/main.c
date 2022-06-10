@@ -6,25 +6,39 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/09 18:07:21 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/10 19:50:41 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void test(t_philosopher *philo)
+{
+	if (philo->data.nb_meal)
+	{
+		printf("1\n");
+	}
+}
+
 int death(t_philosopher *philo)
 {
 	long time_actual;
 	int i;
+	int t;
 
+	pthread_mutex_lock(&philo->data.dead);
+	t = philo->data.nb_meal;
+	pthread_mutex_unlock(&philo->data.dead); //2 lock
 	i = 0;
+	//test(philo);
 	while (i < philo->data.nb_philo)
 	{
 		time_actual = get_time() - philo->data.time_start;
 //		pthread_mutex_lock(&philo->data.eat);
-		pthread_mutex_lock(&philo->data.dead);
-		if(philo->data.nb_meal == philo->data.meal_max) //1 nolock
+		if(t == philo->data.meal_max) //1 nolock
+		{
 			return (WIN);
+		}
 		else if (philo->last_eat > 0) //2lock 1 nolock
 		{
 			if ((time_actual - philo->last_eat) >= philo->data.time_to_die) //2 lock
@@ -42,6 +56,7 @@ int death(t_philosopher *philo)
 		pthread_mutex_unlock(&philo->data.dead);
 	return (0);
 }
+
 //je vais essayer de locker avec le lock eat
 void	eat(t_philosopher *philo)
 {
@@ -50,8 +65,10 @@ void	eat(t_philosopher *philo)
 
 	data = &philo->data;
 	time = get_time() - philo->data.time_start;
+	pthread_mutex_lock(&data->sleeper);
 	if (philo->data.nb_meal != philo->data.meal_max && *philo->is_die != IS_DEAD)
 	{
+		pthread_mutex_unlock(&data->sleeper);
 		pthread_mutex_lock(&data->fork[philo->right]);
 		if(*philo->is_die != IS_DEAD)
 			printf("%ld %d has take fork \n", get_time() - philo->data.time_start, philo->id_philo);
@@ -61,9 +78,9 @@ void	eat(t_philosopher *philo)
 		pthread_mutex_lock(&philo->data.eat);
 		if(*philo->is_die != IS_DEAD)
 			printf("%ld %d eat \n", get_time() - philo->data.time_start, philo->id_philo);
-		//pthread_mutex_lock(&philo->data.dead);
+		pthread_mutex_lock(&philo->data.dead);
 		philo->last_eat = get_time() - philo->data.time_start;
-		//pthread_mutex_unlock(&philo->data.dead);
+		pthread_mutex_unlock(&philo->data.dead);
 		pthread_mutex_lock(&philo->data.dead);
 		philo->data.nb_meal += 1;
 		pthread_mutex_unlock(&philo->data.dead);
@@ -73,6 +90,7 @@ void	eat(t_philosopher *philo)
 		pthread_mutex_unlock(&data->fork[philo->right]);
 		pthread_mutex_unlock(&data->fork[philo->left]);
 	}
+	pthread_mutex_unlock(&data->sleeper);
 }
 
 void	he_sleep(t_philosopher *philo)

@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 14:07:04 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/08 14:53:02 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:52:07 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ int	init_mutex(pthread_mutex_t fork[], t_data data)
 	}
 	pthread_mutex_init(&data.eat, NULL);
 	pthread_mutex_init(&data.dead, NULL);
+	pthread_mutex_init(&data.sleeper, NULL);
 	return (1);
 }
