@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:20 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 18:23:18 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 20:35:30 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	*routine(void *arg)
 	data = arg;
 	data->launch = 0;
 	while (ft_check_state(data) != DEAD && data->philo->dead != DEAD
-		&& data->nbr_meal != data->time_to.nbr_eat)
+		&& data->nb_meal != data->time_to.nbr_eat)
 	{
 		pthread_mutex_unlock(&data->philo->state);
 		ft_get_fork(data);
 	}
-	if ((data->nbr_meal != data->time_to.nbr_eat || data->philo->dead == DEAD)
+	if ((data->nb_meal != data->time_to.nbr_eat || data->philo->dead == DEAD)
 		&& data->philo->terminate == 0)
 		ft_get_die(data);
 	data->philo->terminate++;

@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:48:42 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 18:01:05 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 20:35:30 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_data {
 	int				id;
 	int				launch;
 	long			eat_last;
-	int				nbr_meal;
+	int				nb_meal;
 	int				nb_philo;
 	int				left;
 	int				right;
