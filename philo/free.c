@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:10 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 17:02:39 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 22:58:24 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	ft_unlock_all(t_data *data)
 	pthread_mutex_unlock(&data->philo->fork[data->id]);
 	pthread_mutex_unlock(&data->philo->fork[data->left]);
 }
-
+/*
 void	ft_get_die(t_data	*data)
 {
 	ft_print_action(data, "\033[4;31mis died\033[0m");
-}
+}*/

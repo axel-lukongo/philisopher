@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:29 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 17:02:39 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 22:23:01 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	death(t_data *data, int count, int i)
 	i = 0;
 	while (i < count)
 	{
-		if ((update_runtime(data) - data[i].eat_last > data->time_to.die)
+		if ((update_runtime(data) - data[i].last_eat > data->time_to.die)
 			&& data->state.id[i] != DEAD)
 		{
 			pthread_mutex_unlock(&data->philo->runtime);

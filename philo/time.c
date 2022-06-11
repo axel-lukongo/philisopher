@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:48:24 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 18:01:05 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 23:10:33 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,25 @@ long	update_runtime(t_data *data)
 	return (data->time->runtime);
 }
 
-void	ft_runtime(t_data *data)
+void	print_time(t_data *data)
 {
 	update_runtime(data);
 	printf("\033[1;32m%ld\033[0m ", data->time->runtime);
 }
 
-void	ft_usleep(t_data *data, long time_in_ms)
+void	ft_usleep(t_data *data, long time_to)
 {
 	long	start_time;
 
 	start_time = (get_time(2) - data->time->r_start) * 1000
 		+ ((get_time(0)) - (data->time->r_ustart)) / 1000;
-	while ((update_runtime(data) - start_time) < time_in_ms)
+	while ((update_runtime(data) - start_time) < time_to)
 	{
 		pthread_mutex_unlock(&data->philo->runtime);
 		if (ft_check_state(data) != DEAD && data->philo->dead != DEAD)
 		{
 			pthread_mutex_unlock(&data->philo->state);
-			usleep(time_in_ms / (time_in_ms / 2));
+			usleep(time_to / (time_to / 2));
 		}
 		else
 		{

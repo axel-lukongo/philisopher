@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:48:42 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 20:35:30 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 22:58:30 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_state {
 typedef struct s_data {
 	int				id;
 	int				launch;
-	long			eat_last;
+	long			last_eat;
 	int				nb_meal;
 	int				nb_philo;
 	int				left;
@@ -86,16 +86,16 @@ int		init_data(t_data **data, int ac, char **av);
 void	ft_print_action(t_data *data, char *str);
 void	ft_get_sleep(t_data *data);
 void	ft_get_eat(t_data *data);
-void	ft_get_die(t_data	*data);
+//void	ft_get_die(t_data	*data);
 void	ft_get_think(t_data *data);
 
-void	ft_get_fork(t_data *data);
+void	get_fork_eat(t_data *data);
 void	*routine(void	*arg);
 int		set_philo(int ac, char **av);
 
 void	*ft_timer(void *arg);
 int		init_time(t_data **data);
-void	ft_runtime(t_data *data);
+void	print_time(t_data *data);
 void	*check_death(void	*arg);
 
 void	ft_free(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:02 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 20:35:30 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 22:23:01 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	init_philo(t_time_to time_to, t_data *data, int nb_philo)
 		data[i].nb_philo = nb_philo;
 		data[i].right = i;
 		data[i].left = (i + 1) % nb_philo;
-		data[i].eat_last = 0;
+		data[i].last_eat = 0;
 		data[i].philo = philo;
 		data[i].time_to = time_to;
 		data[i].state = state;
