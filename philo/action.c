@@ -1,45 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/11 01:50:26 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 16:29:14 by alukongo         ###   ########.fr       */
+/*   Created: 2022/06/10 21:49:39 by alukongo          #+#    #+#             */
+/*   Updated: 2022/06/11 17:02:39 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_digit(int ac, char **av)
+void	ft_print_action(t_data *data, char *str)
 {
-	int		i;
-	char	c;
-
-	while (--ac)
-	{
-		i = -1;
-		while (av[ac][++i])
-		{
-			c = av[ac][i];
-			if (c < '0' || c > '9')
-				return (ERROR);
-		}
-	}
-	return (0);
+	pthread_mutex_lock(&data->philo->lock);
+	ft_runtime(data);
+	pthread_mutex_unlock(&data->philo->runtime);
+	printf("%d %s\n", data->id + 1, str);
+	pthread_mutex_unlock(&data->philo->lock);
 }
 
-int parsing(int ac, char **av)
+int	ft_check_state(t_data *data)
 {
-	long long ret;
-	if (ft_digit(ac, av) == ERROR)
-		return(ERROR);
-	while (--ac > 0)
-	{
-		ret = ft_atoi(av[ac]);
-		if (ret > 2147483647)
-			return(ERROR);
-	}
-	return(0);
+	pthread_mutex_lock(&data->philo->state);
+	return (data->state.id[data->id]);
 }

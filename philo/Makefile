@@ -1,13 +1,30 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/06/10 21:47:44 by alukongo          #+#    #+#              #
+#    Updated: 2022/06/11 18:11:21 by alukongo         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 CC = cc 
 
 RM = rm -rf
 
 NAME = philo
 
-MANDATORY = main.c\
-			parsing.c\
+MANDATORY = philo.c\
+			time.c\
 			utils.c\
 			init.c\
+			free.c\
+			main.c\
+			death.c\
+			action.c\
+			parsing.c\
 
 MANDATORY_SRCS	=	${MANDATORY}
 
@@ -15,7 +32,7 @@ BONUS_SRCS	=	${BONUS}
 
 MANDATORY_OBJS	= ${MANDATORY_SRCS:.c=.o}
 
-CFLAGS	= -g -Wall -Werror -Wextra #-fsanitize=thread
+CFLAGS	= -g -Wall -Werror -Wextra -fsanitize=thread
 
 .c.o:
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}

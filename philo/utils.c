@@ -5,12 +5,79 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/11 13:24:12 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 01:01:47 by alukongo         ###   ########.fr       */
+/*   Created: 2022/06/10 21:48:13 by alukongo          #+#    #+#             */
+/*   Updated: 2022/06/11 02:09:23 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+/*
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+long	ft_error(int flag)
+{
+	if (flag == 1)
+	{
+		write(2, "Error: Invalid Argument\n", 24);
+		write(2, "Negative Value\n", 15);
+		return (2147483648);
+	}
+	if (flag == 2)
+	{
+		write(2, "Error: Invalid Argument\n", 24);
+		write(2, "Two consecutive sign\n", 15);
+		return (2147483648);
+	}
+	if (flag == 3)
+	{
+		write(2, "Error: Invalid Argument\n", 24);
+		write(2, "More than int max\n", 18);
+		return (2147483648);
+	}
+	if (flag == 4)
+	{
+		write(2, "Error: Invalid Argument\n", 24);
+		write(2, "Only number are allowed\n", 24);
+		return (2147483648);
+	}
+	return (0);
+}
+
+
+long	ft_atoi(const char *str)
+{
+	int					i;
+	unsigned long long	res;
+
+	res = 0;
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+		i++;
+	while (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			return (ft_error(1));
+		i++;
+		if (i > 1)
+			return (ft_error(2));
+	}
+	while (ft_isdigit(str[i]))
+	{
+		res = res * 10 + str[i] - '0';
+		if (res > 2147483647)
+			return (ft_error(3));
+		i++;
+	}
+	if (str[i] != '\0')
+		return (ft_error(4));
+	return (res);
+}
+*/
 
 long long	ft_atoi(const char *str)
 {
@@ -39,68 +106,22 @@ long long	ft_atoi(const char *str)
 	nbr = nbr * signe;
 	return (nbr);
 }
-
-
-long	get_time(void)
+/*
+long	ft_abs(long nb)
 {
-	long int			time;
-	struct timeval		current_time;
-
-	time = 0;
-	if (gettimeofday(&current_time, NULL) == -1)
-		return (0);
-	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
-	return (time);
+	if (nb < 0)
+		return (-nb);
+	return (nb);
 }
-
-void ft_usleep(t_philosopher *philo, int time_to)
+*/
+long	get_time(int flag)
 {
-	long var;
-	long test;
+	struct timeval	current;
 
-	
-	var = get_time();
-	while (1)
-	{
-		test = get_time() - var;
-		pthread_mutex_lock(&philo->data.dead);
-		if (test > time_to || *philo->is_die == IS_DEAD)
-			break;
-		pthread_mutex_unlock(&philo->data.dead);
-		test = time_to - test;
-		if(test < 1000)
-			usleep(test / 10);
-		else
-			usleep(100);
-	}
-}
-int	clear_mutex(t_philosopher *philo)
-{
-	int	ret;
-	int	i;
-
-	i = -1;
-	while (++i < philo->data.nb_philo)
-	{
-		ret = pthread_mutex_destroy(&philo->data.fork[i]);
-	}
-	ret = pthread_mutex_destroy(&philo->data.eat);
-	ret = pthread_mutex_destroy(&philo->data.dead);
-	ret = pthread_mutex_destroy(&philo->data.sleeper);
-	return (ret);
-}
-
-void join_thread(t_philosopher *philo)
-{
-	int	i;
-
-	i = 0;
-	while (i < philo->data.nb_philo && *philo->is_die != IS_DEAD)
-	{
-		pthread_join(philo[i].thread, NULL);
-		i++;
-	}
-	if (*philo->is_die != IS_DEAD)
-		printf("eat enough\n");
-	clear_mutex(philo);
+	gettimeofday(&current, NULL);
+	if (flag == 1)
+		printf("[%d] ", current.tv_usec);
+	if (flag == 2)
+		return (current.tv_sec);
+	return (current.tv_usec);
 }
