@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:48:52 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 22:50:17 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 23:28:52 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,8 @@ void	one_philo(t_data *data)
 {
 	ft_usleep(data, 100000);
 	if (ft_check_state(data) == DEAD || data->philo->dead == DEAD)
-	{
 		pthread_mutex_unlock(&data->philo->state);
-		//pthread_mutex_unlock(&data->philo->fork[data->id]);
-		return ;
-	}
+	return ;
 }
 
 void	get_fork_eat(t_data *data)

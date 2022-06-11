@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:48:24 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 23:10:33 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 23:34:24 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,16 @@ void	ft_usleep(t_data *data, long time_to)
 	pthread_mutex_unlock(&data->philo->runtime);
 }
 
-void	ft_usleep2(t_data *data, long time_in_ms)
+void	ft_usleep2(t_data *data, long time_to)
 {
 	long	start_time;
 
 	start_time = (get_time(2) - data->time->r_start) * 1000
 		+ ((get_time(0)) - (data->time->r_ustart)) / 1000;
-	while ((update_runtime(data) - start_time) < time_in_ms)
+	while ((update_runtime(data) - start_time) < time_to)
 	{
 		pthread_mutex_unlock(&data->philo->runtime);
-		usleep(time_in_ms / (time_in_ms / 2));
+		usleep(time_to / (time_to / 2));
 	}
 	pthread_mutex_unlock(&data->philo->runtime);
 }

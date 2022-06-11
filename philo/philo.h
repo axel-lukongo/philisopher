@@ -6,30 +6,25 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:48:42 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 22:58:30 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 23:37:21 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef PHILO_H
-# define PHILO_H
 # include <stdio.h>
 # include <pthread.h>
 # include <unistd.h>
 # include <sys/time.h>
 # include <stdlib.h>
 # include <string.h>
-# define MAX_THREAD_NUM 1024
 # define ERROR -1
 # define THINKING 0
-# define HUNGRY 1
 # define EATING 2
 # define SLEEP 3
+# define NB_MAX_THREAD 1024
 # define DEAD -2
-# define NA 4
-//enum	{
-//};
-
+# define ID_STATE 4
 typedef struct s_time {
 	long	r_start;
 	long	r_ustart;
@@ -39,7 +34,7 @@ typedef struct s_time {
 typedef struct s_thread {
 	int				terminate;
 	int				dead;
-	pthread_t		thread[MAX_THREAD_NUM];
+	pthread_t		thread[NB_MAX_THREAD];
 	pthread_t		death;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	state;
@@ -101,6 +96,7 @@ void	*check_death(void	*arg);
 void	ft_free(t_data *data);
 void	ft_free2(t_data *data, t_state *state);
 void	ft_free3(t_data *data, t_state *state, t_thread *philo);
+void	ft_destroy_mutex(t_data *data);
 long	update_runtime(t_data *data);
 void	ft_usleep(t_data *data, long time_in_ms);
 void	ft_usleep2(t_data *data, long time_in_ms);

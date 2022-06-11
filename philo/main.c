@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:20 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 23:01:31 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 23:36:35 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,7 @@ void	init_mutex(t_data *data)
 	pthread_mutex_init(&data->philo->runtime, NULL);
 }
 
-void	ft_destroy_mutex(t_data *data)
-{
-	int	i;
 
-	i = 0;
-	pthread_mutex_destroy(&data->philo->lock);
-	pthread_mutex_destroy(&data->philo->state);
-	pthread_mutex_destroy(&data->philo->runtime);
-	while (i < data->nb_philo)
-	{
-		pthread_mutex_init(&data->philo->fork[i], NULL);
-		i++;
-	}
-}
 
 void start_process(t_data *data ,int nb_philo)
 {
