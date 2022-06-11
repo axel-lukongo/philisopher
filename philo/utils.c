@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:48:13 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 23:37:09 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 23:39:57 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ long	get_time(int flag)
 	return (current.tv_usec);
 }
 
-void	ft_destroy_mutex(t_data *data)
+void	destroy_mutex(t_data *data)
 {
 	int	i;
 
@@ -65,4 +65,28 @@ void	ft_destroy_mutex(t_data *data)
 		pthread_mutex_init(&data->philo->fork[i], NULL);
 		i++;
 	}
+}
+
+int	ft_alloc(t_data	**data, t_state *state, t_thread **philo, int nb_philo)
+{
+	state->id = (int *)malloc(sizeof(int) * nb_philo);
+	if (!state->id)
+	{
+		ft_free2(*data, state);
+		return (ERROR);
+	}
+	*philo = (t_thread *)malloc(sizeof(t_thread));
+	if (!*philo)
+	{
+		ft_free3(*data, state, *philo);
+		return (ERROR);
+	}
+	(*philo)->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* nb_philo);
+	if (!(*philo)->fork)
+	{
+		ft_free3(*data, state, *philo);
+		return (ERROR);
+	}
+	return (0);
 }

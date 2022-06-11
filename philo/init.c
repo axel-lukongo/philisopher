@@ -6,35 +6,12 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:02 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 23:26:06 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 23:56:03 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_alloc(t_data	**data, t_state *state, t_thread **philo, int nb_philo)
-{
-	state->id = (int *)malloc(sizeof(int) * nb_philo);
-	if (!state->id)
-	{
-		ft_free2(*data, state);
-		return (ERROR);
-	}
-	*philo = (t_thread *)malloc(sizeof(t_thread));
-	if (!*philo)
-	{
-		ft_free3(*data, state, *philo);
-		return (ERROR);
-	}
-	(*philo)->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
-			* nb_philo);
-	if (!(*philo)->fork)
-	{
-		ft_free3(*data, state, *philo);
-		return (ERROR);
-	}
-	return (0);
-}
 
 int	init_philo(t_time_to time_to, t_data *data, int nb_philo)
 {
@@ -62,19 +39,6 @@ int	init_philo(t_time_to time_to, t_data *data, int nb_philo)
 	return (0);
 }
 
-int	check_number(long nb_philo, t_time_to time_to)
-{
-	if (nb_philo == 2147483648 || time_to.sleep == 2147483648
-		|| time_to.eat == 2147483648 || time_to.die == 2147483648
-		|| time_to.nbr_eat == 2147483648 || nb_philo == 0
-		|| time_to.eat == 1 || time_to.sleep == 1 || time_to.eat == 0
-		|| time_to.sleep == 0 || time_to.die == 0)
-	{
-		return (1);
-	}
-	return (0);
-}
-
 int	init_data(t_data **data, int ac, char **av)
 {
 	t_time_to		time_to;
@@ -87,8 +51,6 @@ int	init_data(t_data **data, int ac, char **av)
 	time_to.nbr_eat = -1;
 	if (ac == 6)
 		time_to.nbr_eat = ft_atoi(av[5]);
-	//if (check_number(nb_philo, time_to) == 1)
-	//	return (1);
 	*data = (t_data *)malloc(sizeof(t_data) * nb_philo);
 	if (!*data)
 	{
@@ -99,4 +61,19 @@ int	init_data(t_data **data, int ac, char **av)
 	if (init_philo(time_to, *data, nb_philo) == 1)
 		return (ERROR);
 	return (0);
+}
+
+void	init_mutex(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	data->philo->dead = 0;
+	data->philo->terminate = 0;
+	data->death = 0;
+	while (++i < data->nb_philo)
+		pthread_mutex_init(&data->philo->fork[i], NULL);
+	pthread_mutex_init(&data->philo->lock, NULL);
+	pthread_mutex_init(&data->philo->state, NULL);
+	pthread_mutex_init(&data->philo->runtime, NULL);
 }

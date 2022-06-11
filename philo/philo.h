@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:48:42 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 23:37:21 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 23:56:14 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_data {
 }				t_data;
 
 int		ft_isdigit(int c);
-//long	ft_atoi(const char *str);
 long long	ft_atoi(const char *str);
 long	get_time(int flag);
 long	ft_abs(long nb);
@@ -78,17 +77,18 @@ int parsing(int ac, char **av);
 int		init_philo(t_time_to time_to, t_data *data, int nb_philo);
 
 int		init_data(t_data **data, int ac, char **av);
+void	init_mutex(t_data *data);
+int		ft_alloc(t_data	**data, t_state *state, t_thread **philo, int nb_philo);
 void	ft_print_action(t_data *data, char *str);
 void	ft_get_sleep(t_data *data);
 void	ft_get_eat(t_data *data);
-//void	ft_get_die(t_data	*data);
 void	ft_get_think(t_data *data);
 
 void	get_fork_eat(t_data *data);
 void	*routine(void	*arg);
-int		set_philo(int ac, char **av);
+int		start_process(int ac, char **av);
 
-void	*ft_timer(void *arg);
+//void	*ft_timer(void *arg);
 int		init_time(t_data **data);
 void	print_time(t_data *data);
 void	*check_death(void	*arg);
@@ -96,7 +96,7 @@ void	*check_death(void	*arg);
 void	ft_free(t_data *data);
 void	ft_free2(t_data *data, t_state *state);
 void	ft_free3(t_data *data, t_state *state, t_thread *philo);
-void	ft_destroy_mutex(t_data *data);
+void	destroy_mutex(t_data *data);
 long	update_runtime(t_data *data);
 void	ft_usleep(t_data *data, long time_in_ms);
 void	ft_usleep2(t_data *data, long time_in_ms);

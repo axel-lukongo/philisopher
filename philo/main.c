@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:20 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 23:36:35 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 23:55:48 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,7 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-void	init_mutex(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	data->philo->dead = 0;
-	data->philo->terminate = 0;
-	data->death = 0;
-	while (++i < data->nb_philo)
-		pthread_mutex_init(&data->philo->fork[i], NULL);
-	pthread_mutex_init(&data->philo->lock, NULL);
-	pthread_mutex_init(&data->philo->state, NULL);
-	pthread_mutex_init(&data->philo->runtime, NULL);
-}
-
-
-
-void start_process(t_data *data ,int nb_philo)
+void creat_process(t_data *data ,int nb_philo)
 {
 	int i;
 	
@@ -77,7 +60,7 @@ void start_process(t_data *data ,int nb_philo)
 
 }
 
-int	set_philo(int ac, char **av)
+int	start_process(int ac, char **av)
 {
 	t_data		*data;
 	int			i;
@@ -89,12 +72,12 @@ int	set_philo(int ac, char **av)
 	if (init_time(&data) == ERROR)
 		return (ERROR);
 	init_mutex(data);
-	start_process(data, ft_atoi(av[1]));
+	creat_process(data, ft_atoi(av[1]));
 	pthread_create(&data->philo->death, NULL, check_death, data);
 	while (++i < ft_atoi(av[1]))
 		pthread_join(data->philo->thread[i], NULL);
 	pthread_join(data->philo->death, NULL);
-	ft_destroy_mutex(data);
+	destroy_mutex(data);
 	ft_free(data);
 	return (0);
 }
@@ -103,10 +86,10 @@ int	main(int ac, char **av)
 {
 	if ((parsing(ac, av) == ERROR) || (ac < 5 || ac > 6))
 	{
-		printf("\033[3;31mError of arguments\033[0m \n");
-		printf("\033[3;31m exec :[nb_philo][time to die]");
+		printf("\033[1;31mError of arguments\033[0m \n");
+		printf("\033[1;31mexec :[nb_philo][time to die]");
 		printf("[time to eat][time to sleep](nb_meal) \n");
 		return(ERROR);
 	}
-	return (set_philo(ac, av));
+	return (start_process(ac, av));
 }
