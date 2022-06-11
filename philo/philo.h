@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:48:42 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 23:56:14 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/12 00:10:42 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		init_philo(t_time_to time_to, t_data *data, int nb_philo);
 int		init_data(t_data **data, int ac, char **av);
 void	init_mutex(t_data *data);
 int		ft_alloc(t_data	**data, t_state *state, t_thread **philo, int nb_philo);
-void	ft_print_action(t_data *data, char *str);
+void	print_action(t_data *data, char *str);
 void	ft_get_sleep(t_data *data);
 void	ft_get_eat(t_data *data);
 void	ft_get_think(t_data *data);

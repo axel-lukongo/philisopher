@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:20 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 23:55:48 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/12 00:10:42 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	*routine(void *arg)
 	}
 	if ((data->nb_meal != data->time_to.nbr_eat || data->philo->dead == DEAD)
 		&& data->philo->terminate == 0)
-			ft_print_action(data, "\033[1;31mis died\033[0m");
+			print_action(data, "\033[1;31mis died\033[0m");
 	else if(data->philo->dead != DEAD)
-		ft_print_action(data, "\033[1;33meat enought\033[0m");
+		print_action(data, "\033[1;33meat enought\033[0m");
 	data->philo->terminate++;
 	pthread_mutex_unlock(&data->philo->state);
 	return (NULL);

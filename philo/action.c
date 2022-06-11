@@ -6,13 +6,13 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:39 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 23:10:42 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/12 00:10:42 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_print_action(t_data *data, char *str)
+void	print_action(t_data *data, char *str)
 {
 	pthread_mutex_lock(&data->philo->lock);
 	print_time(data);
