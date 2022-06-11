@@ -6,17 +6,17 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:12 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/10 14:28:44 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 01:01:47 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atoi(const char *str)
+long long	ft_atoi(const char *str)
 {
-	long	i;
-	int		signe;
-	int		nbr;
+	long			i;
+	int				signe;
+	long long int	nbr;
 
 	nbr = 0;
 	signe = 1;

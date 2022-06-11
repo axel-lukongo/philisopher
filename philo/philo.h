@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:36:58 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/10 21:37:21 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 01:02:09 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_philosopher
 t_data	g_data;
 
 int		parsing(int ac, char **av);
-int		ft_atoi(const char *str);
+long long	ft_atoi(const char *str);
 void	*func1(void * arg);
 void	init_data(t_data *data, char **av, int ac);
 void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac);

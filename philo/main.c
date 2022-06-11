@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:48:51 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 00:34:41 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/11 01:30:56 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,12 @@ void	start_process(int nb_philo, int ac, char **av)
 int	main(int ac, char **av)
 {
 	if ((parsing(ac, av) == ERROR) || (ac < 5 || ac > 6))
+	{
+		printf("\033[3;31mError of arguments\033[0m \n");
+		printf("\033[3;31m exec :[nb_philo][time to die]");
+		printf("[time to eat][time to sleep](nb_meal) \n");
 		return(ERROR);
+	}
 	else
 		start_process(ft_atoi(av[1]), ac, av);
 	return(0);
