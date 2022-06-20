@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/11 12:58:18 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/11 01:15:29 by alukongo         ###   ########.fr       */
+/*   Created: 2022/06/11 01:50:26 by alukongo          #+#    #+#             */
+/*   Updated: 2022/06/20 13:30:50 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,18 @@ int	ft_digit(int ac, char **av)
 	return (0);
 }
 
-int parsing(int ac, char **av)
+int	parsing(int ac, char **av)
 {
-	long long ret;
+	long long	ret;
+
 	if (ft_digit(ac, av) == ERROR)
-		return(ERROR);
+		return (ERROR);
+	ac -= 1;
 	while (--ac > 0)
 	{
 		ret = ft_atoi(av[ac]);
-		if (ret > 2147483647)
-			return(ERROR);
+		if (ret > 2147483647 || ret < 1)
+			return (ERROR);
 	}
-	
-	return(0);
+	return (0);
 }

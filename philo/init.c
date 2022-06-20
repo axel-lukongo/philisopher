@@ -5,66 +5,75 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/16 14:07:04 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/09 18:52:07 by alukongo         ###   ########.fr       */
+/*   Created: 2022/06/10 21:49:02 by alukongo          #+#    #+#             */
+/*   Updated: 2022/06/20 13:43:43 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_data(t_data *data, char **av, int ac)
+int	init_philo(t_time_to time_to, t_data *data, int nb_philo)
 {
-	data->nb_philo = ft_atoi(av[1]);
-	data->time_to_die = ft_atoi(av[2]);
-	data->time_to_eat = ft_atoi(av[3]);
-	data->time_to_sleep = ft_atoi(av[4]);
-	data->time_start = get_time();
-	data->nb_meal = 0;
-	if (ac == 6)
-		data->meal_max = ft_atoi(av[5]);
-	else
-		data->meal_max = -1;
-}
+	t_state		state;
+	t_thread	*philo;
+	int			i;
 
-void	init_philo(t_philosopher philo[], int nb_philo, char **av, int ac)
-{
-	int i;
-	pthread_mutex_t fork[nb_philo];
-	int death;
-
-	death = ALIVE;
 	i = 0;
-	init_data(&philo->data, av, ac);
-	init_mutex(fork, philo->data);
+	if (ft_alloc(&data, &state, &philo, nb_philo) == 1)
+		return (1);
 	while (i < nb_philo)
 	{
-		memset(&philo[i], 0, sizeof(t_philosopher));
-		philo[i].id_philo = i + 1;
-		philo[i].right = i;
-		philo[i].win = 0;
-		philo[i].is_die = &death;
-		philo[i].left = (i + 1) % nb_philo; 
-		philo[i].data.fork = &fork[0];
-		philo[i].last_eat = 0;
-		init_data(&philo[i].data, av, ac);
+		state.id[i] = ID_STATE;
+		data[i].id = i;
+		data[i].nb_meal = 0;
+		data[i].nb_philo = nb_philo;
+		data[i].right = i;
+		data[i].left = (i + 1) % nb_philo;
+		data[i].last_eat = 0;
+		data[i].philo = philo;
+		data[i].time_to = time_to;
+		data[i].state = state;
+		data[i].id_philo_dead = i;
 		i++;
 	}
+	return (0);
 }
 
-int	init_mutex(pthread_mutex_t fork[], t_data data)
+int	init_data(t_data **data, int ac, char **av)
+{
+	t_time_to		time_to;
+	long			nb_philo;
+
+	nb_philo = ft_atoi(av[1]);
+	time_to.sleep = ft_atoi(av[4]);
+	time_to.eat = ft_atoi(av[3]);
+	time_to.die = ft_atoi(av[2]);
+	time_to.nbr_eat = -1;
+	if (ac == 6)
+		time_to.nbr_eat = ft_atoi(av[5]);
+	*data = (t_data *)malloc(sizeof(t_data) * nb_philo);
+	if (!*data)
+	{
+		ft_free(*data);
+		write(2, "ERROR ALLOC\n", 11);
+		return (ERROR);
+	}
+	if (init_philo(time_to, *data, nb_philo) == 1)
+		return (ERROR);
+	return (0);
+}
+
+void	init_mutex(t_data *data)
 {
 	int	i;
-	int ret;
-	i = 0;
-	while (i < data.nb_philo)
-	{
-		ret = pthread_mutex_init(&fork[i], NULL);
-		if (ret)
-			printf("Error\n");
-		i++;
-	}
-	pthread_mutex_init(&data.eat, NULL);
-	pthread_mutex_init(&data.dead, NULL);
-	pthread_mutex_init(&data.sleeper, NULL);
-	return (1);
+
+	i = -1;
+	data->philo->dead = 0;
+	data->philo->terminate = 0;
+	data->death = 0;
+	while (++i < data->nb_philo)
+		pthread_mutex_init(&data->philo->fork[i], NULL);
+	pthread_mutex_init(&data->philo->lock, NULL);
+	pthread_mutex_init(&data->philo->state, NULL);
+	pthread_mutex_init(&data->philo->runtime, NULL);
 }

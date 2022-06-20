@@ -1,9 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/axellukongo/projet42/rescous/philosopher/philo'
-cc  -g -Wall -Werror -Wextra  -c main.c -o main.o
-cc  -g -Wall -Werror -Wextra  -c parsing.c -o parsing.o
-cc  -g -Wall -Werror -Wextra  -c utils.c -o utils.o
-cc  -g -Wall -Werror -Wextra  -c init.c -o init.o
-cc  -g -Wall -Werror -Wextra    -o philo main.o parsing.o utils.o init.o -lpthread
-make: Leaving directory `/Users/axellukongo/projet42/rescous/philosopher/philo'
- 
