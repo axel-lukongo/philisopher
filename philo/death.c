@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:29 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/17 17:32:16 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/21 14:02:20 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ int	check_terminate(t_data *data)
 	return (0);
 }
 
+/**
+ * @brief here if one philo die, i change the value of data->state.id
+ * and all philo will see this and they should print nothing 
+ * 
+ * @param data 
+ * @param count 
+ * @param i 
+ * @return int 
+ */
 int	death(t_data *data, int count, int i)
 {
 	i = 0;

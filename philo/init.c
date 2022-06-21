@@ -6,12 +6,22 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:02 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/20 13:43:43 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/21 13:55:25 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/**
+ * @brief here i init the data about the philos 
+ * (i + 1) % nb_philo it a formule for the last philo to take the fork of
+ * the first philo
+ * 
+ * @param time_to 
+ * @param data 
+ * @param nb_philo 
+ * @return int 
+ */
 int	init_philo(t_time_to time_to, t_data *data, int nb_philo)
 {
 	t_state		state;
@@ -39,6 +49,14 @@ int	init_philo(t_time_to time_to, t_data *data, int nb_philo)
 	return (0);
 }
 
+/**
+ * @brief here i init the data in general
+ * 
+ * @param data 
+ * @param ac 
+ * @param av 
+ * @return int 
+ */
 int	init_data(t_data **data, int ac, char **av)
 {
 	t_time_to		time_to;

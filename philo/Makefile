@@ -6,7 +6,7 @@
 #    By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/10 21:47:44 by alukongo          #+#    #+#              #
-#    Updated: 2022/06/20 16:04:25 by alukongo         ###   ########.fr        #
+#    Updated: 2022/06/21 14:03:38 by alukongo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ BONUS_SRCS	=	${BONUS}
 
 MANDATORY_OBJS	= ${MANDATORY_SRCS:.c=.o}
 
-CFLAGS	= -g -Wall -Werror -Wextra #-fsanitize=thread
+CFLAGS	= -g -Wall -Werror -Wextra -fsanitize=thread
 
 .c.o:
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}

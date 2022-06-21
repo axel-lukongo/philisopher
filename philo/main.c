@@ -6,12 +6,19 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:49:20 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/20 13:41:05 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/21 14:07:04 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/**
+ * @brief in the routine i make a loop who gone take fork while all the philos
+ * ain't eat enought or are not dead
+ * 
+ * @param arg 
+ * @return void* 
+ */
 void	*routine(void *arg)
 {
 	t_data	*data;
@@ -34,6 +41,13 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+/**
+ * @brief in this function i creat the process i throw the even first
+ * and the odd just later
+ * 
+ * @param data the data of my program and this is where i declare my thread
+ * @param nb_philo the number of philo
+ */
 void	creat_process(t_data *data, int nb_philo)
 {
 	int	i;
@@ -59,6 +73,14 @@ void	creat_process(t_data *data, int nb_philo)
 	}
 }
 
+/**
+ * @brief here i init every thing what i need and i throw a process
+ * who should be the monitor, it will check if one of the philo are dead
+ * 
+ * @param ac 
+ * @param av 
+ * @return int 
+ */
 int	start_process(int ac, char **av)
 {
 	t_data		*data;

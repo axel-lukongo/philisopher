@@ -6,7 +6,7 @@
 /*   By: alukongo <alukongo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 21:48:52 by alukongo          #+#    #+#             */
-/*   Updated: 2022/06/20 15:35:19 by alukongo         ###   ########.fr       */
+/*   Updated: 2022/06/21 14:10:12 by alukongo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,12 @@ void	one_philo(t_data *data)
 	return ;
 }
 
+/**
+ * @brief the philo who ain't even will sleep a quick time for allow
+ * the philo who are even to lock the mutex, when i eat i call get_eat
+ * 
+ * @param data 
+ */
 void	get_fork_eat(t_data *data)
 {
 	if (data->id % 2 == 1 && data->launch != 1)
